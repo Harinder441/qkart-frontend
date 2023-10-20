@@ -3,12 +3,15 @@ import { Box } from "@mui/system";
 import axios from "axios";
 import { useSnackbar } from "notistack";
 import React, { useState } from "react";
+import { useHistory, Link } from "react-router-dom";
+
 import { config } from "../App";
 import Footer from "./Footer";
 import Header from "./Header";
 import "./Register.css";
 
 const Register = () => {
+  const history = useHistory();
   const { enqueueSnackbar } = useSnackbar();
   const { endpoint } = config;
   const [isLoading, setIsLoading] = useState(false);
@@ -52,7 +55,10 @@ const Register = () => {
         if (res.status === 201) {
           console.log(res.data);
           enqueueSnackbar("Registered successfully", { variant: "success" });
+          history.push("/login",{from:'RegisterPage'});
+
         }
+
       } catch (error) {
         console.log(error.response);
         if (error.response.status === 400) {
@@ -178,9 +184,10 @@ const Register = () => {
           )}
           <p className="secondary-action">
             Already have an account?{" "}
-            <a className="link" href="#">
-              Login here
-            </a>
+            <Link to="/login" className="link">
+            Login here            
+            </Link>
+           
           </p>
         </Stack>
       </Box>
